@@ -1,3 +1,4 @@
+import { RewardsLoadError } from "../../rewards/load-error";
 import Link from "next/link";
 import { randomUUID } from "node:crypto";
 import { requireRole, client } from "../../../lib/supabase/server";
@@ -55,7 +56,23 @@ export default async function Collection({
     budget.error ||
     wallet.error
   )
-    throw Error("无法读取收藏，请检查养成系统迁移");
+    return (
+      <RewardsLoadError
+        admin={false}
+        errors={{
+          inventory: inventory.error,
+          outfits: outfits.error,
+          badges: badges.error,
+          unlocks: unlocks.error,
+          mail: mail.error,
+          attachments: attachments.error,
+          claims: claims.error,
+          requests: requests.error,
+          reward_budget: budget.error,
+          wallet: wallet.error,
+        }}
+      />
+    );
   const owned = new Set(inventory.data.map((x) => String(x.item_id))),
     worn = new Set(outfits.data.map((x) => String(x.item_id))),
     folder = q.folder ?? "inbox";

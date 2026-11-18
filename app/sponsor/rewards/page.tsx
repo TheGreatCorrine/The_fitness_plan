@@ -1,3 +1,4 @@
+import { RewardsLoadError } from "../../rewards/load-error";
 import Link from "next/link";
 import { randomUUID } from "node:crypto";
 import { requireRole, client } from "../../../lib/supabase/server";
@@ -42,7 +43,19 @@ export default async function Rewards({
     budget.error ||
     wallet.error
   )
-    throw Error("无法读取运营记录");
+    return (
+      <RewardsLoadError
+        admin={true}
+        errors={{
+          badges: badges.error,
+          templates: templates.error,
+          history: history.error,
+          requests: requests.error,
+          reward_budget: budget.error,
+          wallet: wallet.error,
+        }}
+      />
+    );
   return (
     <main className="live">
       <header className="top">
