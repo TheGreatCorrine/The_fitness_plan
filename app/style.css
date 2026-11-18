@@ -1,0 +1,527 @@
+@import "tailwindcss";
+:root {
+  --ink: #5e443c;
+  --muted: #876c5e;
+  --edge: #dcc4a9;
+  --paper: #fff9ed;
+  color: var(--ink);
+  font:
+    15px/1.6 system-ui,
+    "PingFang SC",
+    sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 85% 0, #f7dfcc, transparent 58%),
+    repeating-linear-gradient(0deg, #f4e6d4 0 2px, #f6e9d9 2px 7px);
+  min-height: 100vh;
+}
+main {
+  max-width: 1480px;
+  margin: auto;
+  padding: 22px clamp(12px, 3vw, 50px);
+}
+button {
+  cursor: pointer;
+  color: inherit;
+  background: #fcf2e4;
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+  padding: 7px 14px;
+  font: inherit;
+}
+button:hover:enabled {
+  background: #f7dfca;
+}
+button:disabled {
+  cursor: default;
+}
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #a0644a;
+  outline-offset: 2px;
+}
+small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  font-family: Georgia, "Songti SC", "Noto Serif CJK SC", serif;
+  font-weight: 750;
+}
+h1 {
+  font-size: clamp(22px, 3vw, 34px);
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+}
+.top,
+.brand,
+.heading,
+.row,
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.top {
+  padding: 10px 0 21px;
+  border-bottom: 1px solid #cfb699;
+}
+.brand {
+  margin-right: auto;
+}
+.brand img {
+  height: 63px;
+  width: 54px;
+  object-fit: cover;
+  object-position: top;
+  clip-path: ellipse(48% 45% at 50% 45%);
+}
+.brand small,
+.heading small,
+.section > small,
+aside > small {
+  font:
+    bold 10px/1.6 Georgia,
+    serif;
+  letter-spacing: 0.19em;
+  color: #957056;
+}
+.wallet,
+.switch,
+.demo,
+.roomlabel,
+.temp,
+.caption,
+.bubble {
+  background: #fff6e5ef;
+  border: 1px solid #d5b89a;
+  border-radius: 30px;
+  padding: 6px 14px;
+}
+.wallet b {
+  font: 700 20px Georgia;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 158px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: 20px;
+}
+aside,
+.panel,
+.frame {
+  background: var(--paper);
+  border: 1px solid var(--edge);
+  border-radius: 20px;
+  box-shadow:
+    0 3px 0 #d7ba972e,
+    inset 0 0 0 3px #ffffff88;
+}
+aside {
+  padding: 20px 9px;
+  text-align: center;
+}
+nav {
+  margin-top: 16px;
+  display: grid;
+  gap: 5px;
+}
+nav button {
+  display: flex;
+  align-items: center;
+  border-color: transparent;
+  background: none;
+  text-align: left;
+  padding: 9px 12px;
+}
+nav i {
+  width: 30px;
+  font: 22px Georgia;
+  color: #9d7056;
+}
+nav em {
+  color: #bf776d;
+  font-size: 9px;
+  margin-left: auto;
+}
+nav button[aria-current] {
+  background: #f3dcc7;
+  border-color: #e2c3a4;
+  font-weight: 700;
+}
+aside footer,
+.foot {
+  color: #987961;
+  font-size: 12px;
+  margin-top: 20px;
+}
+.heading {
+  justify-content: space-between;
+  margin: 0 0 14px;
+}
+.heading h2 {
+  font-size: clamp(23px, 3vw, 32px);
+}
+.demo {
+  font-size: 11px;
+  color: #755e50;
+  background: #ede3d6;
+  padding: 3px 10px;
+}
+.homegrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(200px, 1fr);
+  gap: 14px;
+}
+.panel,
+.frame {
+  padding: 18px;
+}
+.frame {
+  padding: 7px;
+  display: flex;
+  background: #f7e2ca;
+}
+.scene {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  min-height: 322px;
+  border-radius: 14px;
+  background: #edcba6 url("/art/bedroom.webp") center/cover;
+}
+.scene:before {
+  position: absolute;
+  content: "";
+  inset: 0;
+  background:
+    linear-gradient(0deg, #ba916c 0%, #cda782 10%, transparent 30%),
+    linear-gradient(90deg, transparent, #ffe7ce33, transparent);
+}
+.roomlabel,
+.temp,
+.bubble,
+.caption {
+  position: absolute;
+  font-size: 12px;
+}
+.roomlabel {
+  top: 12px;
+  left: 12px;
+}
+.temp {
+  top: 12px;
+  right: 12px;
+  background: #eaf2f0;
+  color: #536c76;
+}
+.warm {
+  background: #fff0ca;
+}
+.bubble {
+  top: 25%;
+  left: 59%;
+  max-width: 37%;
+  border-radius: 16px 16px 16px 0;
+  font-size: 13px;
+}
+.character,
+.character:hover:enabled {
+  position: absolute;
+  left: 46%;
+  bottom: 12%;
+  transform: translateX(-50%);
+  height: 65%;
+  aspect-ratio: 99/128;
+  padding: 0;
+  border: 0;
+  background: none;
+  filter: drop-shadow(1px 4px 2px #77563544);
+}
+.character img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.shiver {
+  animation: shiver 5s infinite;
+}
+@keyframes shiver {
+  2%,
+  6% {
+    transform: translateX(calc(-50% + 1px));
+  }
+  4%,
+  8% {
+    transform: translateX(calc(-50% - 1px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+  }
+}
+.caption {
+  bottom: 9px;
+  left: 12px;
+  font-weight: bold;
+}
+.caption small {
+  display: inline;
+  font-weight: normal;
+}
+.props {
+  position: absolute;
+  bottom: 10%;
+  right: 2%;
+  display: flex;
+}
+.props img {
+  width: 38px;
+}
+.section {
+  margin-bottom: 12px;
+}
+.section h2 {
+  font-size: 22px;
+}
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 9px;
+}
+.products article,
+.tasks button,
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #ead6bf;
+  border-radius: 13px;
+  background: #fff4e4;
+  padding: 10px;
+}
+.iconart {
+  width: 50px;
+  height: 45px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.products button {
+  margin-left: auto;
+  font-size: 12px;
+  padding: 4px 8px;
+  white-space: nowrap;
+}
+.products button:disabled {
+  color: #8e7660;
+}
+.shelf .products {
+  grid-template-columns: 1fr;
+}
+.shelf > button {
+  display: block;
+  margin: 12px auto 0;
+  padding: 4px 15px;
+}
+.shelf {
+  padding: 15px;
+}
+.homegrid + .panel {
+  margin-top: 16px;
+}
+.tasks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.tasks button,
+.badge {
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+}
+.tasks b {
+  font-size: 12px;
+  color: #84612c;
+  background: #f9e6af;
+  border-radius: 32px;
+  padding: 1px 10px;
+}
+.locked {
+  filter: grayscale(0.8);
+  opacity: 0.7;
+}
+.row {
+  padding: 12px 0;
+  flex-wrap: wrap;
+  border-bottom: 1px dashed var(--edge);
+}
+form {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+textarea,
+input {
+  max-width: 100%;
+  background: #fffdf9;
+  border: 1px solid var(--edge);
+  border-radius: 8px;
+  padding: 8px;
+  color: inherit;
+}
+textarea {
+  width: 100%;
+}
+.panel p,
+.panel h3 {
+  margin: 10px 0;
+}
+.notice {
+  background: #fbebbd;
+  border-radius: 12px;
+  padding: 9px 14px;
+  margin-bottom: 12px;
+}
+.notice button {
+  float: right;
+  padding: 0 9px;
+}
+.foot {
+  text-align: center;
+}
+.tabs button[aria-pressed="true"] {
+  background: #efd8c5;
+}
+@media (max-width: 1050px) {
+  .layout {
+    grid-template-columns: 138px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .homegrid {
+    grid-template-columns: minmax(0, 1.6fr) minmax(210px, 1fr);
+  }
+  .products article {
+    gap: 4px;
+    padding: 6px;
+  }
+  .products .iconart {
+    width: 37px;
+  }
+}
+@media (max-width: 760px) {
+  main {
+    padding: 9px 12px;
+  }
+  .layout {
+    display: block;
+    margin-top: 9px;
+  }
+  .top {
+    gap: 6px;
+    padding-bottom: 10px;
+  }
+  .brand img {
+    width: 36px;
+    height: 46px;
+  }
+  .brand {
+    gap: 4px;
+  }
+  .brand small {
+    font-size: 8px;
+  }
+  .wallet,
+  .switch {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  aside {
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+  }
+  aside > small,
+  aside footer {
+    display: none;
+  }
+  nav {
+    display: flex;
+    overflow: auto;
+    margin: 0;
+  }
+  nav button {
+    flex-shrink: 0;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  nav i {
+    width: 20px;
+    font-size: 16px;
+  }
+  .homegrid {
+    display: flex;
+    flex-direction: column;
+  }
+  .scene {
+    min-height: 290px;
+  }
+  .panel {
+    padding: 13px;
+  }
+  .shelf .products {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .shelf article {
+    flex-direction: column;
+    text-align: center;
+  }
+  .shelf article button {
+    margin: auto;
+  }
+  .tasks {
+    gap: 5px;
+  }
+  .tasks button {
+    padding: 7px 3px;
+  }
+  .tasks small {
+    font-size: 10px;
+  }
+  .heading h2 {
+    font-size: 24px;
+  }
+  .row form {
+    width: 100%;
+  }
+  .section h2 {
+    font-size: 19px;
+  }
+  .bubble {
+    font-size: 11px;
+  }
+  .foot {
+    font-size: 11px;
+  }
+}
