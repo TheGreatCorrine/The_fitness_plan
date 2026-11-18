@@ -552,3 +552,30 @@ textarea {
 .entry .scene {
   margin: 15px 0;
 }
+.live {
+  max-width: 1100px;
+}
+.live > .panel,
+.live > .homegrid,
+.live > [role="status"] {
+  margin-top: 16px;
+}
+.live .panel form {
+  gap: 10px;
+}
+.live label {
+  display: block;
+  width: 100%;
+}
+.live label input,
+.live select {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--edge);
+  background: var(--paper);
+  border-radius: 8px;
+  padding: 6px;
+}
+.live .top form {
+  margin-left: auto;
+}
