@@ -12,7 +12,7 @@ for (const name of await readdir("public/art")) {
 const result = await build({
   stdin: {
     contents:
-      "import React from 'react'; import {createRoot} from 'react-dom/client'; import Game from './app/page'; createRoot(document.querySelector('main')).render(React.createElement(Game));",
+      "import React from 'react'; import {createRoot} from 'react-dom/client'; import Game from './app/demo/page'; createRoot(document.querySelector('main')).render(React.createElement(Game));",
     resolveDir: process.cwd(),
   },
   bundle: true,
@@ -23,11 +23,11 @@ const result = await build({
     {
       name: "embedded-art",
       setup(b) {
-        b.onLoad({ filter: /app\/page\.tsx$/ }, async (args) => {
+        b.onLoad({ filter: /app\/demo\/page\.tsx$/ }, async (args) => {
           const source = await readFile(args.path, "utf8");
           return {
             loader: "tsx",
-            resolveDir: process.cwd() + "/app",
+            resolveDir: process.cwd() + "/app/demo",
             contents:
               source
                 .replace(/src=\{([^}]+)\}/g, "src={artFiles[$1] ?? $1}")

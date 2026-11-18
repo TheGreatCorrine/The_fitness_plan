@@ -525,3 +525,30 @@ textarea {
     font-size: 11px;
   }
 }
+.entry {
+  max-width: 570px;
+  margin: 6vh auto;
+}
+.entry > .panel {
+  padding: clamp(22px, 5vw, 42px);
+}
+.entry form {
+  display: grid;
+  margin: 20px 0;
+  gap: 14px;
+}
+.entry label,
+.entry input {
+  display: block;
+  width: 100%;
+}
+.entry a {
+  text-decoration: underline;
+}
+.portrait {
+  height: 100px;
+  margin-bottom: 12px;
+}
+.entry .scene {
+  margin: 15px 0;
+}

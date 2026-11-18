@@ -9,7 +9,8 @@
   "scripts": {
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "dev": "next dev",
-    "build": "next build --webpack"
+    "build": "next build --webpack",
+    "start": "next start"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,8 @@
   },
   "homepage": "https://github.com/TheGreatCorrine/The_fitness_plan#readme",
   "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.119.1",
     "@tailwindcss/postcss": "^4.3.5",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
@@ -35,6 +38,7 @@
   },
   "private": true,
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.16",
     "@types/react-dom": "^19.3.0",
     "esbuild": "^0.28.2",
     "prettier": "^3.10.1"
