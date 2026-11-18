@@ -579,3 +579,25 @@ textarea {
 .live .top form {
   margin-left: auto;
 }
+.live .tabs {
+  display: flex;
+  gap: 1rem;
+}
+.live a {
+  text-decoration: underline;
+}
+.mail-card {
+  border-top: 1px dashed var(--edge);
+  padding: 12px 0;
+}
+.letter-body {
+  white-space: pre-wrap;
+  width: 100%;
+}
+.live details {
+  margin: 10px 0;
+}
+.live label input[type="checkbox"] {
+  display: inline;
+  width: auto;
+}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireRole, client } from "../../lib/supabase/server";
 import { signOut } from "../login/actions";
 import { review } from "../economy/actions";
@@ -34,6 +35,7 @@ export default async function Sponsor({
         <form action={signOut}>
           <button>退出登录</button>
         </form>
+        <Link href="/sponsor/rewards">写信与兑奖</Link>
       </header>
       {message && <p role="status">{message}</p>}
       <section className="panel">

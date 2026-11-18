@@ -1,6 +1,6 @@
 # 小张养成计划 · S1 白手起家
 
-Phase 3 正式账号已支持照片打卡、审核发币、永久装备和流水。角色、余额和权限由 Supabase 管理，接入方法见 [双账户配置](supabase/README.md)。访问 /demo 可独立试玩第一阶段的完整模拟游戏，刷新会重新开局。
+正式账号已支持打卡、发币、永久装备、换装、成就、游戏邮件与现实兑奖。角色、余额和权限由 Supabase 管理，接入方法见 [双账户配置](supabase/README.md)。访问 /demo 可独立试玩第一阶段的完整模拟游戏，刷新会重新开局。
 
 ## 开发与验证
 使用 Node 24，依次运行 npm ci、npm test、npm run dev。访问 localhost:3000。npm run build 验证生产构建，npm start 运行服务端。构建后运行 node scripts/preview.mjs 生成单文件试玩版。
@@ -15,7 +15,7 @@ Phase 3 正式账号已支持照片打卡、审核发币、永久装备和流水
 ## 正式架构及里程碑
 2. 本阶段已启用 Next 服务端会话。Supabase Auth 关闭注册，邀请两个指定账号。PostgreSQL profiles 固定两个角色，公开 schema 启用 RLS，私有凭证 bucket 按身份限制读取和上传。验证匿名及跨账号访问拒绝。
 3. 本阶段已在打卡、库存和账本表上实现经济事务。Next Server Actions 校验身份并调用数据库事务。打卡锁定价格规则、装备和寒冷快照。数据库检查周期、证据哈希、唯一奖励来源、库存唯一性及余额。并发审批与购买测试验证最多一次入账。
-4. 接入 outfits、achievements、achievement_unlocks、redemption_requests 及模板、消息、附件、领取表。申请冻结、确认付款锁定月预算、拒绝解冻。按多伦多实付日计入自然月。投递副本不可编辑，领取与账本同事务；测试跨月和重复请求。
+4. 本阶段已接入 outfits、achievements、achievement_unlocks、redemption_requests 及模板、消息、附件、领取表。申请冻结、确认付款锁定月预算、拒绝解冻。按多伦多实付日计入自然月。投递副本不可编辑，领取与账本同事务；测试跨月和重复请求。
 5. 用两个测试账号验证私有照片、邮件、预算及移动端完整旅程。Vercel 导入仓库，配置 Supabase URL 与 publishable key、Auth 回调和生产域名。任何特权密钥仅配置于需要它的服务端。当前未连接或部署外部服务。
 
 ## 规则与待确认

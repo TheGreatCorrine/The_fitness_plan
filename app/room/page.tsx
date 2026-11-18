@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Scene } from "../rewards/scene";
 import { randomUUID } from "node:crypto";
 import { requireRole, client } from "../../lib/supabase/server";
 import { signOut } from "../login/actions";
@@ -17,7 +19,7 @@ export default async function Room({
 }) {
   const p = await requireRole("player"),
     db = await client();
-  const [wallet, inventory, catalog, history] = await Promise.all([
+  const [wallet, inventory, catalog, history, outfits] = await Promise.all([
     db
       .from("wallets")
       .select("available,frozen")
@@ -32,11 +34,17 @@ export default async function Room({
       )
       .order("submitted_at", { ascending: false })
       .limit(30),
+    db.from("outfits").select("item_id"),
   ]);
-  if (wallet.error || inventory.error || catalog.error || history.error)
+  if (
+    wallet.error ||
+    inventory.error ||
+    catalog.error ||
+    outfits.error ||
+    history.error
+  )
     throw new Error("暂时无法读取游戏记录");
   const owned = new Set(inventory.data.map((x) => x.item_id)),
-    warm = owned.has("pants_warm"),
     today = new Intl.DateTimeFormat("en-CA", {
       timeZone: "America/Toronto",
       year: "numeric",
@@ -52,27 +60,15 @@ export default async function Room({
         <form action={signOut}>
           <button>退出登录</button>
         </form>
+        <Link href="/room/collection">衣柜 · 来信 · 兑奖</Link>
       </header>
       {message && <p role="status">{message}</p>}
       <div className="homegrid">
         <section className="frame">
-          <div className="scene">
-            <span className="temp">
-              {warm ? "☀ 温暖" : "❄ 寒冷 · 收益 −20%"}
-            </span>
-            <div className={"character " + (warm ? "" : "shiver")}>
-              <img src="/art/base.png" alt="小张" />
-              {items
-                .filter((x) => x.layer && owned.has(x.id))
-                .map((x) => (
-                  <img
-                    key={x.id}
-                    src={"/art/" + x.layer + ".png"}
-                    alt={x.name}
-                  />
-                ))}
-            </div>
-          </div>
+          <Scene
+            owned={owned}
+            worn={new Set(outfits.data.map((x) => String(x.item_id)))}
+          />
         </section>
         <section className="panel">
           <h2>今日打卡</h2>

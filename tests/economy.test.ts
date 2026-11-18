@@ -13,7 +13,11 @@ test("trusted submission, weekly bonus, permanent inventory and retry-safe settl
       "utf8",
     );
     await db.exec(setup);
-    for (const file of ["202611180001_game", "202611180002_economy"])
+    for (const file of [
+      "202611180001_game",
+      "202611180002_economy",
+      "202611180003_rewards",
+    ])
       await db.exec(
         await readFile(
           new URL("../supabase/migrations/" + file + ".sql", import.meta.url),
@@ -69,6 +73,15 @@ test("trusted submission, weekly bonus, permanent inventory and retry-safe settl
         (await db.query<{ available: number }>("select available from wallets"))
           .rows[0].available,
       );
+    await role("authenticated", admin);
+    await db.query(
+      "select save_mail_template($1,'daily','加油','每天一封',0,true)",
+      [randomUUID()],
+    );
+    await db.query(
+      "select save_mail_template($1,'warm','暖和了','给小张',3,true)",
+      [randomUUID()],
+    );
     const key = randomUUID(),
       first = await submit("gym", "a", undefined, key);
     assert.equal(await submit("gym", "a", undefined, key), first);
@@ -120,6 +133,78 @@ test("trusted submission, weekly bonus, permanent inventory and retry-safe settl
     );
     assert.equal(Number(rows[0].n), 14);
     await assert.rejects(db.query("select purchase_item('hoodie')"), /仅玩家/);
+    assert.equal(
+      (await db.query("select id from mail_messages")).rows.length,
+      2,
+    );
+    assert.equal(
+      (await db.query("select achievement_id from achievement_unlocks")).rows
+        .length,
+      4,
+    );
+    const gift = randomUUID();
+    await db.query("select write_letter($1,'测试','保留原文',2400)", [gift]);
+    await assert.rejects(
+      db.query("update mail_messages set body='changed'"),
+      /permission denied/,
+    );
+    await role("authenticated");
+    await db.query("select wear_item('pants_warm',false)");
+    assert.equal((await db.query("select * from outfits")).rows.length, 0);
+    const m = (
+      await db.query<{ id: string }>(
+        "select id from mail_messages where title='测试'",
+      )
+    ).rows[0].id;
+    for (const action of [
+      "read",
+      "claim",
+      "star",
+      "trash",
+      "restore",
+      "claim",
+      "trash",
+      "delete",
+    ])
+      await db.query("select manage_letter($1,$2)", [m, action]);
+    assert.equal(await balance(), 2414);
+    assert.equal(
+      (await db.query("select id from mail_messages where id=$1", [m])).rows
+        .length,
+      0,
+    );
+    const firstPay = randomUUID(),
+      secondPay = randomUUID();
+    for (const [k, n] of [
+      [firstPay, 2000],
+      [firstPay, 2000],
+      [secondPay, 400],
+    ])
+      await db.query("select request_redemption($1,$2)", [k, n]);
+    assert.equal(await balance(), 14);
+    await assert.rejects(
+      db.query("select settle_redemption($1,true)", [firstPay]),
+      /仅管理员/,
+    );
+    await role("authenticated", admin);
+    await db.query("select settle_redemption($1,true)", [firstPay]);
+    await db.query("select settle_redemption($1,true)", [firstPay]);
+    await assert.rejects(
+      db.query("select settle_redemption($1,true)", [secondPay]),
+      /本月实付额度不足/,
+    );
+    await db.query("select settle_redemption($1,false)", [secondPay]);
+    assert.equal(await balance(), 414);
+    assert.equal(
+      Number(
+        (
+          await db.query<{ monthly_coins: number }>(
+            "select * from reward_budget",
+          )
+        ).rows[0].monthly_coins,
+      ),
+      2000,
+    );
   } finally {
     await db.close();
   }
